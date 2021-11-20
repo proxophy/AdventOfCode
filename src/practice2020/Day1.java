@@ -41,7 +41,7 @@ public class Day1 {
 		for (int i = 0; i < n; i++) {
 			numbers[i] = sc.nextInt();
 		}
-
+		sc.close();
 		return numbers;
 	}
 }
