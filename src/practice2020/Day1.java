@@ -7,29 +7,30 @@ import java.util.Scanner;
 
 public class Day1 {
 	public static void main(String args[]) throws FileNotFoundException {
-		int[] nums = readIn(200);
-		System.out.println(Arrays.toString(nums));
+		System.out.println("hi");
+		// int[] nums = readIn(200);
+		// System.out.println(Arrays.toString(nums));
 
-//		outer: for (int i = 0; i < 200 - 1; i++) {
-//			for (int j = i; j < 200; j++) {
-//				if (nums[i] + nums[j] == 2020) {
-//					System.out.println("found: " + nums[i] + " " + nums[j]);
-//					System.out.println(nums[i] * nums[j]);
-//					break outer;
-//				}
-//			}
-//		}
+		// outer: for (int i = 0; i < 200 - 1; i++) {
+		// for (int j = i; j < 200; j++) {
+		// if (nums[i] + nums[j] == 2020) {
+		// System.out.println("found: " + nums[i] + " " + nums[j]);
+		// System.out.println(nums[i] * nums[j]);
+		// break outer;
+		// }
+		// }
+		// }
 
-		outer2: for (int i = 0; i < 200 - 2; i++) {
-			for (int j = i+1; j < 200 -1; j++) {
-				for (int k = j+1; k < 200; k++) {
-					if (nums[i] + nums[j] + nums[k]== 2020) {
-						System.out.println(nums[i] * nums[j] * nums[k]);
-						break outer2;
-					}
-				}
-			}
-		}
+		// outer2: for (int i = 0; i < 200 - 2; i++) {
+		// for (int j = i+1; j < 200 -1; j++) {
+		// for (int k = j+1; k < 200; k++) {
+		// if (nums[i] + nums[j] + nums[k]== 2020) {
+		// System.out.println(nums[i] * nums[j] * nums[k]);
+		// break outer2;
+		// }
+		// }
+		// }
+		// }
 
 	}
 
