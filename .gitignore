@@ -1,4 +1,5 @@
-src/input
-src/input_t
+./src/input
+./src/input_t
 .classpath
 .project
+./workspace.code-workspace
