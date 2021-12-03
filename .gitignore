@@ -1,5 +1,6 @@
-./src/input
-./src/input_t
 .classpath
 .project
 ./workspace.code-workspace
+.aoc2021/input
+.aoc2021/input_s
+.aoc2021/bin
