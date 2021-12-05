@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public interface AoCTask {
 
-	public void readInput(Scanner src, int n);
+	public void readInput(Scanner scr, int n);
 
 	public int task1();
 
