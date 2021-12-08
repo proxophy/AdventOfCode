@@ -35,7 +35,7 @@ public class Day2 implements AoCTask {
     }
 
     @Override
-    public int task1() {
+    public String task1() {
         int hor = 0;
         int vert = 0;
         for (int i = 0; i < input.length; i++) {
@@ -49,11 +49,11 @@ public class Day2 implements AoCTask {
 
         }
 
-        return hor * vert;
+        return "" + hor * vert;
     }
 
     @Override
-    public int task2() {
+    public String task2() {
         int hor = 0;
         int vert = 0;
         int aim = 0;
@@ -68,7 +68,7 @@ public class Day2 implements AoCTask {
             }
         }
 
-        return hor * vert;
+        return "" + hor * vert;
     }
 
 }

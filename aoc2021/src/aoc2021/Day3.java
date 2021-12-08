@@ -35,7 +35,7 @@ public class Day3 implements AoCTask {
     }
 
     @Override
-    public int task1() {
+    public String task1() {
         int k = input[0].length();
         int onec = 0;
         int zeroc = 0;
@@ -59,12 +59,12 @@ public class Day3 implements AoCTask {
             onec = 0;
             zeroc = 0;
         }
-        return Integer.parseInt(gamma, 2) * Integer.parseInt(epsilon, 2);
+        return "" + Integer.parseInt(gamma, 2) * Integer.parseInt(epsilon, 2);
     }
 
     @Override
-    public int task2() {
-        return find_crit(false) * find_crit(true);
+    public String task2() {
+        return "" + find_crit(false) * find_crit(true);
     }
 
     public int find_crit(boolean ox) {

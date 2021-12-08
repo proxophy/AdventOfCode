@@ -6,7 +6,7 @@ public interface AoCTask {
 
 	public void readInput(Scanner scr, int n);
 
-	public int task1();
+	public String task1();
 
-	public int task2();
+	public String task2();
 }

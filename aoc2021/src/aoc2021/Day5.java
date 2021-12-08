@@ -1,6 +1,5 @@
 package aoc2021;
 
-import java.util.Arrays;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -66,7 +65,7 @@ public class Day5 implements AoCTask {
     }
 
     @Override
-    public int task1() {
+    public String task1() {
         int[][] grid = new int[this.maxy + 1][this.maxx + 1];
         for (Segment seg : this.segments) {
             if (seg.isHorizontal()) {
@@ -87,11 +86,11 @@ public class Day5 implements AoCTask {
             }
         }
 
-        return c;
+        return "" + c;
     }
 
     @Override
-    public int task2() {
+    public String task2() {
         int[][] grid = new int[this.maxy + 1][this.maxx + 1];
         for (Segment seg : this.segments) {
             int xup = seg.x2 != seg.x1 ? (seg.x2 - seg.x1) / (Math.abs(seg.x2 - seg.x1)) : 0;
@@ -114,7 +113,7 @@ public class Day5 implements AoCTask {
             }
         }
 
-        return c;
+        return "" + c;
     }
 
 }

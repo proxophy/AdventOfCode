@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 public class Day4 implements AoCTask {
     ArrayList<Board> boards = new ArrayList<Board>();
@@ -56,14 +55,14 @@ public class Day4 implements AoCTask {
     }
 
     @Override
-    public int task1() {
+    public String task1() {
         for (int n : drawn) {
             Board move = play(n);
             if (move != null) {
-                return move.sumUnmarked() * n;
+                return "" + move.sumUnmarked() * n;
             }
         }
-        return 0;
+        return "" + 0;
     }
 
     public Board play(int num) {
@@ -79,7 +78,7 @@ public class Day4 implements AoCTask {
     }
 
     @Override
-    public int task2() {
+    public String task2() {
         ArrayList<Board> ingame = new ArrayList<Board>();
         ingame.addAll(boards);
 
@@ -91,13 +90,13 @@ public class Day4 implements AoCTask {
                 b.crossNumber(num);
                 if (b.isWinning()) {
                     if (ingame.size() == 1) {
-                        return ingame.get(0).sumUnmarked() * num;
+                        return "" + ingame.get(0).sumUnmarked() * num;
                     }
                     ingame.remove(b);
                 }
             }
         }
-        return 0;
+        return "" + 0;
     }
 
 }

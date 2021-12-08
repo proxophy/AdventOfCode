@@ -31,18 +31,18 @@ public class Day1 implements AoCTask {
 	}
 
 	@Override
-	public int task1() {
+	public String task1() {
 		int c = 0;
 		for (int i = 0; i < input.length - 1; i++) {
 			if (input[i] <= input[i + 1]) {
 				c++;
 			}
 		}
-		return c;
+		return "" + c;
 	}
 
 	@Override
-	public int task2() {
+	public String task2() {
 		int[] sums = new int[input.length - 2];
 		for (int i = 0; i < input.length - 2; i++) {
 			sums[i] = input[i] + input[i + 1] + input[i + 2];
@@ -58,7 +58,7 @@ public class Day1 implements AoCTask {
 		}
 
 		// TODO Auto-generated method stub
-		return c;
+		return "" + c;
 	}
 
 }

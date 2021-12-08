@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-public class Day6 {
+public class Day6 implements AoCTask {
     ArrayList<Fish> fish = new ArrayList<Fish>();
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -16,7 +16,7 @@ public class Day6 {
         scr = new Scanner(file);
         Day6 small = new Day6();
         small.readInput(scr, 0);
-        System.out.println(small.task2_l());
+        System.out.println(small.task2());
         scr.close();
 
         File file2 = new File("input");
@@ -24,7 +24,7 @@ public class Day6 {
         Day6 big = new Day6();
         big.readInput(scr, 0);
         scr.close();
-        System.out.println(big.task2_l());
+        System.out.println(big.task2());
     }
 
     public void readInput(Scanner scr, int n) {
@@ -37,7 +37,7 @@ public class Day6 {
 
     }
 
-    public int task1() {
+    public String task1() {
         for (int i = 1; i <= 80; i++) {
             ArrayList<Fish> new_fish = new ArrayList<Fish>();
             new_fish.addAll(fish);
@@ -52,10 +52,10 @@ public class Day6 {
 
         }
 
-        return fish.size();
+        return "" + fish.size();
     }
 
-    public Long task2() {
+    public String task2() {
         // much faster than task 1 version, thanks to DP
 
         // nums[i] describes how many fish have internal timer i
@@ -79,7 +79,7 @@ public class Day6 {
             sum += nums[i];
         }
 
-        return sum;
+        return "" + sum;
     }
 
 }
