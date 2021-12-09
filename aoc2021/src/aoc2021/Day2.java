@@ -1,24 +1,19 @@
 package aoc2021;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Day2 implements AoCTask {
     int[][] input;
 
-    public static void main(String[] args) throws FileNotFoundException {
-        File file = new File("input_s");
-        Scanner src = new Scanner(file);
-        Day2 small = new Day2();
-        small.readInput(src, 6);
-        System.out.println(small.task2());
+    public static void main(String[] args) {
+        Executor ex = new Executor();
 
-        File file2 = new File("input");
-        Scanner scr2 = new Scanner(file2);
-        Day2 big = new Day2();
-        big.readInput(scr2, 1000);
-        System.out.println(big.task2());
+        AoCTask small = new Day2();
+        AoCTask big = new Day2();
+
+        ex.execute_timed(small, "inputs/input_s_2", 6);
+        System.out.println();
+        ex.execute_timed(big, "inputs/input_2", 1000);
     }
 
     @Override

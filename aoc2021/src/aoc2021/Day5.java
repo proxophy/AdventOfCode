@@ -1,45 +1,21 @@
 package aoc2021;
 
 import java.util.Scanner;
-import java.io.File;
-import java.io.FileNotFoundException;
 
 public class Day5 implements AoCTask {
     Segment[] segments;
     int maxx = 0;
     int maxy = 0;
 
-    public static void main(String[] args) throws FileNotFoundException {
-        Scanner scr;
+    public static void main(String[] args) {
+        Executor ex = new Executor();
 
-        File file = new File("input_s");
-        scr = new Scanner(file);
-        Day5 small = new Day5();
-        small.readInput(scr, 10);
-        System.out.println(small.task2());
-        scr.close();
+        AoCTask small = new Day5();
+        AoCTask big = new Day5();
 
-        File file2 = new File("input");
-        scr = new Scanner(file2);
-        Day5 big = new Day5();
-        big.readInput(scr, 500);
-        scr.close();
-        System.out.println(big.task2());
-
-        long startTime = System.currentTimeMillis();
-        for (int i = 0; i < 10; i++) {
-            big.task1();
-        }
-        long endTime = System.currentTimeMillis();
-        System.out.println("Total execution time: " + (endTime - startTime) / 10);
-
-        startTime = System.currentTimeMillis();
-        for (int i = 0; i < 10; i++) {
-            big.task2();
-        }
-        endTime = System.currentTimeMillis();
-        System.out.println("Total execution time: " + (endTime - startTime) / 10);
-
+        ex.execute_timed(small, "inputs/input_s_5", 10);
+        System.out.println();
+        ex.execute_timed(big, "inputs/input_5", 500);
     }
 
     @Override

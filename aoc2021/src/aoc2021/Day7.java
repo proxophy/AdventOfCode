@@ -3,28 +3,19 @@ package aoc2021;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import java.io.File;
-import java.io.FileNotFoundException;
 
 public class Day7 implements AoCTask {
     ArrayList<Integer> positions;
 
-    public static void main(String[] args) throws FileNotFoundException {
-        Scanner scr;
+    public static void main(String[] args) {
+        Executor ex = new Executor();
 
-        File file = new File("input_s");
-        scr = new Scanner(file);
-        Day7 small = new Day7();
-        small.readInput(scr, 0);
-        System.out.println(small.task2());
-        scr.close();
+        AoCTask small = new Day7();
+        AoCTask big = new Day7();
 
-        File file2 = new File("input");
-        scr = new Scanner(file2);
-        Day7 big = new Day7();
-        big.readInput(scr, 0);
-        scr.close();
-        System.out.println(big.task2());
+        ex.execute_timed(small, "inputs/input_s_7", 0);
+        System.out.println();
+        ex.execute_timed(big, "inputs/input_7", 0);
     }
 
     @Override

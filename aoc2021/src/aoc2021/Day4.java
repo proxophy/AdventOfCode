@@ -3,30 +3,20 @@ package aoc2021;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.io.File;
-import java.io.FileNotFoundException;
 
 public class Day4 implements AoCTask {
     ArrayList<Board> boards = new ArrayList<Board>();
     ArrayList<Integer> drawn = new ArrayList<Integer>();
 
-    public static void main(String[] args) throws FileNotFoundException {
-        Scanner scr;
+    public static void main(String[] args) {
+        Executor ex = new Executor();
 
-        File file = new File("input_s");
-        scr = new Scanner(file);
-        Day4 small = new Day4();
-        small.readInput(scr, 0);
-        System.out.println(small.task2());
-        scr.close();
+        AoCTask small = new Day4();
+        AoCTask big = new Day4();
 
-        File file2 = new File("input");
-        scr = new Scanner(file2);
-        Day4 big = new Day4();
-        big.readInput(scr, 1000);
-        scr.close();
-        System.out.println(big.task2());
-
+        ex.execute_timed(small, "inputs/input_s_4", 0);
+        System.out.println();
+        ex.execute_timed(big, "inputs/input_4", 0);
     }
 
     @Override
@@ -40,7 +30,7 @@ public class Day4 implements AoCTask {
         }
         linescr.close();
 
-        // read in numbers
+        // read in boards
         while (scr.hasNextInt()) {
             int[][] nums = new int[5][5];
             for (int i = 0; i < 5; i++) {
@@ -51,6 +41,8 @@ public class Day4 implements AoCTask {
             Board board = new Board(nums);
             boards.add(board);
         }
+
+        System.out.println(drawn.size());
 
     }
 

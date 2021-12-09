@@ -1,25 +1,19 @@
 package aoc2021;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Day1 implements AoCTask {
 	int[] input;
 
-	public static void main(String[] args) throws FileNotFoundException {
-		File file = new File("input_s");
-		Scanner src = new Scanner(file);
-		Day1 small = new Day1();
-		small.readInput(src, 10);
-		System.out.println(small.task2());
+	public static void main(String[] args) {
+		Executor ex = new Executor();
 
-		File file2 = new File("input");
-		Scanner scr2 = new Scanner(file2);
-		Day1 big = new Day1();
-		big.readInput(scr2, 2000);
-		System.out.println(big.task2());
+		AoCTask small = new Day1();
+		AoCTask big = new Day1();
+
+		ex.execute_timed(small, "inputs/input_s_1", 10);
+		System.out.println();
+		ex.execute_timed(big, "inputs/input_1", 2000);
 	}
 
 	@Override
@@ -48,8 +42,6 @@ public class Day1 implements AoCTask {
 			sums[i] = input[i] + input[i + 1] + input[i + 2];
 		}
 
-		System.out.println(Arrays.toString(sums));
-
 		int c = 0;
 		for (int i = 0; i < sums.length - 1; i++) {
 			if (sums[i] < sums[i + 1]) {
@@ -57,7 +49,6 @@ public class Day1 implements AoCTask {
 			}
 		}
 
-		// TODO Auto-generated method stub
 		return "" + c;
 	}
 

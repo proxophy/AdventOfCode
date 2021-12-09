@@ -7,29 +7,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.io.File;
-import java.io.FileNotFoundException;
 
 public class Day8 implements AoCTask {
     String[][] input;
     int n;
 
-    public static void main(String[] args) throws FileNotFoundException {
-        Scanner scr;
+    public static void main(String[] args) {
+        Executor ex = new Executor();
 
-        File file = new File("input_s");
-        scr = new Scanner(file);
-        Day8 small = new Day8();
-        small.readInput(scr, 10);
-        System.out.println("Small: " + small.task2());
-        scr.close();
+        AoCTask small = new Day8();
+        AoCTask big = new Day8();
 
-        File file2 = new File("input");
-        scr = new Scanner(file2);
-        Day8 big = new Day8();
-        big.readInput(scr, 200);
-        scr.close();
-        System.out.println("Big: " + big.task2());
+        ex.execute_timed(small, "inputs/input_s_8", 10);
+        System.out.println();
+        ex.execute_timed(big, "inputs/input_8", 200);
     }
 
     @Override
