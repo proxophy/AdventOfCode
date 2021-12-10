@@ -21,8 +21,8 @@ public class Day9 implements AoCTask {
     }
 
     @Override
-    public void readInput(Scanner scr, int n) {
-        this.m = n;
+    public void readInput(Scanner scr, int m) {
+        this.m = m;
         grid = new int[this.m][];
         for (int k = 0; k < m; k++) {
             String[] elms = scr.nextLine().split("");
@@ -30,8 +30,8 @@ public class Day9 implements AoCTask {
             for (int i = 0; i < elms.length; i++)
                 line[i] = Integer.parseInt(elms[i]);
             grid[k] = line;
+            this.n = grid[0].length;
         }
-        this.n = grid[0].length;
 
     }
 
