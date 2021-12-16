@@ -1,12 +1,7 @@
 package aoc2021;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class Day15 implements AoCTask {
@@ -118,7 +113,6 @@ public class Day15 implements AoCTask {
                 edges.add(new ArrayList<Integer>());
                 ws.add(new HashMap<Integer, Integer>());
             }
-            // this.weights = new int[this.vc][this.vc];
 
             this.ec = 0;
         }
@@ -128,7 +122,6 @@ public class Day15 implements AoCTask {
                 return;
             }
             edges.get(u).add(v);
-            // weights[u][v] = weight;
             ws.get(u).put(v, weight);
             this.ec++;
         }
