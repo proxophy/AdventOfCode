@@ -1,6 +1,5 @@
 package aoc2021;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Day18 implements AoCTask {
@@ -26,13 +25,11 @@ public class Day18 implements AoCTask {
         for (int i = 0; i < n; i++) {
             String line = scr.nextLine();
             this.lines[i] = line;
-            this.numbers[i] = parseLine(line, 0);
+            this.numbers[i] = parseLine(line);
         }
-
     }
 
-    public Snailnumber parseLine(String line, int depth) {
-
+    public Snailnumber parseLine(String line) {
         String[] leftright = split(line);
 
         Snailnumber left = null;
@@ -44,22 +41,22 @@ public class Day18 implements AoCTask {
         boolean rightc = leftright[1].charAt(0) == '[';
 
         if (leftc) {
-            left = parseLine(leftright[0], depth + 1);
+            left = parseLine(leftright[0]);
         } else {
             leftv = Integer.parseInt(leftright[0]);
         }
 
         if (rightc) {
-            right = parseLine(leftright[1], depth + 1);
+            right = parseLine(leftright[1]);
         } else {
             rightv = Integer.parseInt(leftright[1]);
         }
 
         Snailnumber res = new Snailnumber(left, right, leftv, rightv);
         if (left != null)
-            left.setParent(res);
+            left.parent = res;
         if (right != null)
-            right.setParent(res);
+            right.parent = res;
 
         return res;
     }
@@ -91,7 +88,6 @@ public class Day18 implements AoCTask {
         for (int i = 1; i < numbers.length; i++) {
             res = add(res, numbers[i]);
         }
-        System.out.println(res);
         return "" + res.magnitude();
     }
 
@@ -100,24 +96,21 @@ public class Day18 implements AoCTask {
         int res = 0;
         for (int i = 0; i < numbers.length; i++) {
             for (int j = 0; j < numbers.length; j++) {
-
                 if (i == j) {
                     continue;
                 }
-                Snailnumber sni = parseLine(lines[i], 0);
-                Snailnumber snj = parseLine(lines[j], 0);
-
-                res = Math.max(res, add(sni, snj).magnitude());
+                res = Math.max(res, add(numbers[i], numbers[j]).magnitude());
             }
         }
         return "" + res;
     }
 
     public Snailnumber add(Snailnumber a, Snailnumber b) {
-
-        Snailnumber res = new Snailnumber(a, b, -1, -1);
-        a.parent = res;
-        b.parent = res;
+        Snailnumber res = new Snailnumber(-1, -1);
+        Snailnumber ac = a.copy(res);
+        Snailnumber bc = b.copy(res);
+        res.left = ac;
+        res.right = bc;
 
         while (reduce(res)) {
         }
@@ -141,12 +134,34 @@ public class Day18 implements AoCTask {
         int leftv, rightv;
         boolean leaf;
 
+        Snailnumber(int leftv, int rightv) {
+            this.left = this.right = null;
+            this.leftv = leftv;
+            this.rightv = rightv;
+            this.leaf = !(this.leftv == -1 || this.rightv == -1);
+        }
+
         Snailnumber(Snailnumber left, Snailnumber right, int leftv, int rightv) {
             this.left = left;
             this.right = right;
             this.leftv = leftv;
             this.rightv = rightv;
             this.leaf = !(this.leftv == -1 || this.rightv == -1);
+        }
+
+        Snailnumber copy(Snailnumber p) {
+            Snailnumber cop = new Snailnumber(leftv, rightv);
+            cop.parent = p;
+            Snailnumber nl = null, nr = null;
+            if (left != null) {
+                nl = left.copy(cop);
+                cop.left = nl;
+            }
+            if (right != null) {
+                nr = right.copy(cop);
+                cop.right = nr;
+            }
+            return cop;
         }
 
         @Override
@@ -159,12 +174,7 @@ public class Day18 implements AoCTask {
             int res = 0;
             res += ((left != null) ? left.magnitude() : leftv) * 3;
             res += ((right != null) ? right.magnitude() : rightv) * 2;
-
             return res;
-        }
-
-        public void setParent(Snailnumber par) {
-            this.parent = par;
         }
 
         public int depth() {
@@ -178,22 +188,27 @@ public class Day18 implements AoCTask {
         }
 
         public boolean explode() {
-            Snailnumber expl = findExploding();
-            if (expl == null)
-                return false;
-            expl.incrementLeft();
-            expl.incrementRight();
-
-            if (expl.parent.right == expl) {
-                expl.parent.right = null;
-                expl.parent.rightv = 0;
-            } else if (expl.parent.left == expl) {
-                expl.parent.left = null;
-                expl.parent.leftv = 0;
+            if (depth() == 4) {
+                incrementLeft();
+                incrementRight();
+                if (parent.right == this) {
+                    parent.right = null;
+                    parent.rightv = 0;
+                } else if (parent.left == this) {
+                    parent.left = null;
+                    parent.leftv = 0;
+                }
+                parent.leaf = !(parent.leftv == -1 || parent.rightv == -1);
             }
 
-            expl.parent.leaf = !(expl.parent.leftv == -1 || expl.parent.rightv == -1);
-            return true;
+            boolean l = false;
+            boolean r = false;
+            if (left != null)
+                l = left.explode();
+            if (right != null)
+                r = right.explode();
+
+            return l || r;
         }
 
         public void incrementLeft() {
@@ -201,32 +216,25 @@ public class Day18 implements AoCTask {
             if (!this.leaf) {
                 return;
             }
-            Snailnumber currp = parent;
             Snailnumber curr = this;
             // move up
-            while (currp.left == curr) {
-
-                currp = currp.parent;
+            while (curr.parent.left == curr) {
                 curr = curr.parent;
                 // ended up at the root;
-                if (currp == null) {
-                    break;
-                }
-            }
-
-            if (currp != null) {
-
-                if (currp.left == null) {
-                    currp.leftv += val;
+                if (curr.parent == null) {
                     return;
                 }
-                curr = currp.left;
-                while (curr.right != null) {
-                    curr = curr.right;
-                }
-                curr.rightv += val;
-
             }
+
+            if (curr.parent.left == null) {
+                curr.parent.leftv += val;
+                return;
+            }
+            curr = curr.parent.left;
+            while (curr.right != null) {
+                curr = curr.right;
+            }
+            curr.rightv += val;
         }
 
         public void incrementRight() {
@@ -234,93 +242,57 @@ public class Day18 implements AoCTask {
             if (!this.leaf) {
                 return;
             }
-            Snailnumber currp = parent;
             Snailnumber curr = this;
             // move up
-            while (currp.right == curr) {
-                currp = currp.parent;
+            while (curr.parent.right == curr) {
                 curr = curr.parent;
                 // ended up at the root;
-                if (currp == null) {
-                    break;
-                }
-            }
-
-            if (currp != null) {
-                if (currp.right == null) {
-                    currp.rightv += val;
+                if (curr.parent == null) {
                     return;
                 }
-                curr = currp.right;
-                while (curr.left != null) {
-                    curr = curr.left;
-                }
-                curr.leftv += val;
-
-            }
-        }
-
-        public Snailnumber findExploding() {
-            if (this.leaf) {
-                if (this.isExploding()) {
-                    return this;
-                }
-                return null;
-            } else if (this.left != null && left.findExploding() != null) {
-                return left.findExploding();
-            } else if (this.right != null && right.findExploding() != null) {
-                return right.findExploding();
             }
 
-            return null;
-        }
-
-        public boolean isExploding() {
-            return this.depth() >= 4;
+            if (curr.parent.right == null) {
+                curr.parent.rightv += val;
+                return;
+            }
+            curr = curr.parent.right;
+            while (curr.left != null) {
+                curr = curr.left;
+            }
+            curr.leftv += val;
         }
 
         public boolean split() {
-            Snailnumber split = findSplitting();
+            if (left != null && left.split())
+                return true;
 
-            if (split == null)
-                return false;
-
-            if (split.leftv >= 10) {
-                int val = split.leftv;
-                int lv = val / 2;
-                int rv = val / 2 + (val % 2 != 0 ? 1 : 0);
-                Snailnumber newleft = new Snailnumber(null, null, lv, rv);
-                newleft.setParent(split);
-                split.left = newleft;
-                split.leftv = -1;
-            } else if (split.rightv >= 10) {
-                int val = split.rightv;
-                int lv = val / 2;
-                int rv = val / 2 + (val % 2 != 0 ? 1 : 0);
-
-                Snailnumber newright = new Snailnumber(null, null, lv, rv);
-                newright.setParent(split);
-                split.right = newright;
-                split.rightv = -1;
+            if (leftv >= 10) {
+                int val = leftv;
+                Snailnumber newleft = new Snailnumber(val / 2, val - val / 2);
+                newleft.parent = this;
+                left = newleft;
+                leftv = -1;
+                this.leaf = false;
+                return true;
             }
 
-            split.leaf = !(split.leftv == -1 || split.rightv == -1);
-            return true;
-        }
+            if (right != null && right.split())
+                return true;
 
-        public Snailnumber findSplitting() {
+            if (rightv >= 10) {
+                int val = rightv;
 
-            if (this.left != null && this.left.findSplitting() != null) {
-                return this.left.findSplitting();
-            } else if (this.leftv > 9) {
-                return this;
-            } else if (this.right != null && this.right.findSplitting() != null) {
-                return this.right.findSplitting();
-            } else if (this.rightv > 9) {
-                return this;
+                Snailnumber newright = new Snailnumber(val / 2, val - val / 2);
+                newright.parent = this;
+                right = newright;
+                rightv = -1;
+                this.leaf = false;
+                return true;
             }
-            return null;
+            return false;
         }
+
     }
 
 }
