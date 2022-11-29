@@ -1,3 +1,7 @@
 ﻿# AdventOfCode 
-https://adventofcode.com/ for 2021 with Java and Practice 2020 with Python.  
+https://adventofcode.com/ 
+Practice 2019: Scala
+Practice 2020: Java/Python
+2021: Java
+2022: TBK
 
