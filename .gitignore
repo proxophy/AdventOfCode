@@ -1,4 +1,7 @@
 **/.vscode/
+**/a.out
+**/inp.txt
+**/test_inp.txt
 
 .classpath
 .project
@@ -20,3 +23,4 @@ practice2019/target
 practice2019/build.sbt
 
 aoc2022/scrape.py
+aoc2022/templ
