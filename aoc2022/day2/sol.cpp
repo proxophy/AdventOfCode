@@ -53,7 +53,6 @@ int part2(std::vector<std::string> moves) {
 
     for (std::string move : moves) {
         if (scores.contains(move)) {
-            // std::cout << scores[move] << "\n";
             score += scores[move];
         } else {
             std::cout << move << " not in moves \n";
