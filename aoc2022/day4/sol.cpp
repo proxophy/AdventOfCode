@@ -5,32 +5,17 @@ struct Pair {
 
     friend std::istream &operator>>(std::istream &stream, Pair &data) {
         std::string line;
-        bool failure = false;
 
         if (std::getline(stream, line)) {
+            // making reading input simpler, credits to ahm3t on d-infk discord
+            std::replace(line.begin(), line.end(), ',', ' ');
+            std::replace(line.begin(), line.end(), '-', ' ');
             std::stringstream iss(line);
             std::string s1, e1, s2, e2;
-            if (std::getline(iss, s1, '-') &&
-                std::getline(iss, e1, ',') &&
-                std::getline(iss, s2, '-') &&
-                std::getline(iss, e2)) {
-                try {
-                    data.s1 = std::stoi(s1);
-                    data.e1 = std::stoi(e1);
-                    data.s2 = std::stoi(s2);
-                    data.e2 = std::stoi(e2);
-                } catch (...) {
-                    std::cout << "Invalid input\n";
-                }
-            } else {
-                failure = true;
+            if (!(iss >> data.s1 >> data.e1 >> data.s2 >> data.e2)) {
+                stream.setstate(std::ios::failbit);
             }
         }
-
-        if (failure) {
-            stream.setstate(std::ios::failbit);
-        }
-
         return stream;
     }
 
@@ -44,8 +29,7 @@ struct Pair {
     }
 
     bool overlapping() {
-        return (s1 <= s2 && s2 <= e1 && e1 <= e2) || (s2 <= s1 && s1 <= e2 && e2 <= e1) 
-                || fullycontaining();
+        return (s1 <= s2 && s2 <= e1 && e1 <= e2) || (s2 <= s1 && s1 <= e2 && e2 <= e1) || fullycontaining();
     }
 };
 
@@ -69,6 +53,10 @@ int part1(std::vector<Pair> pairs) {
         }
     }
     return count;
+
+    // takes longer for some reason
+    // return std::count_if(pairs.begin(), pairs.end(),
+    //                      [](Pair p) { return p.fullycontaining(); });
 }
 
 int part2(std::vector<Pair> pairs) {
