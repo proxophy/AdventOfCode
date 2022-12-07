@@ -1,37 +1,41 @@
 import re
 if __name__ == "__main__":
-    with open("inp.txt", "r") as f:
+    with open("test_inp.txt", "r") as f:
         content = f.read()
 
-    commands = re.findall("\$ ([^\$]+)\n", content)
-
-    def split(s): return ("cd", s[3:]) if s[:2] == "cd" else (
-        "ls", s.split("\n")[1:])
-    commands = list(map(split, commands))
+    pattern = "\$ ([^\$]+)\n"
+    pattern = "\$ (?P<cmd>cd|ls)(?P<trg> [a-z\/\.]+|)\n(?P<els>[^$]*)"
+    commands = list(map (lambda x: x.groupdict(), re.finditer(pattern, content)))
+    for c in commands:
+        c["trg"] = c["trg"].replace(" ", "")
+        elpattern = "(?P<size>\d+) (?P<fname>[a-z\.])|dir (?P<dname>[\.a-z])"
+        c["els"] = list(map (lambda x: x.groupdict(), re.finditer(elpattern, c["els"])))
 
     parent = {"_": ""}
     pwd = "_"
     ftree = {"_": ([], [])}
     for c in commands:
-        if c[0] == "cd":
-            if c[1] == "/":
+        if c["cmd"] == "cd":
+            trg = c["trg"]
+            if trg == "/":
                 pwd = "_"
-            elif c[1] == "..":
+            elif trg == "..":
                 pwd = parent[pwd]
             else:
-                pwd = f"{pwd}/{c[1]}"
-        elif c[0] == "ls":
-            for el in c[1]:
-                p1, p2 = el.split(" ")
-                newpath = f"{pwd}/{p2}"
-                if p1 == "dir":
+                pwd = f"{pwd}/{trg}"
+        elif c["cmd"] == "ls":
+            for el in c["els"]:
+                if el["dname"]:
+                    dname = el["dname"]
+                    newpath = f"{pwd}/{dname}"
                     parent[newpath] = pwd
                     ftree[pwd][0].append(newpath)
                     ftree[newpath] = ([], [])
 
                 else:
-                    ftree[pwd][1].append((p2, int(p1)))
+                    ftree[pwd][1].append((el["fname"], int(el["size"])))
 
+    print(ftree)
     def dirval(name): return sum(
         map(dirval, ftree[name][0])) + sum(map(lambda x: x[1], ftree[name][1]))
 
