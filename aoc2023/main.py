@@ -13,6 +13,6 @@ def readinput():
 
 if __name__ == "__main__":
     tcontent, content = readinput()
-    day = Day1(tcontent)
-    
-    print(day.task1())
+    day = Day1(content)
+
+    print(day.task2())
