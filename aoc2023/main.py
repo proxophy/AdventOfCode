@@ -1,6 +1,4 @@
-from day1 import Day1
-from day2 import Day2
-from day3 import Day3
+from day10 import Day10
 
 def readinput():
     with open("test_inp.txt") as f:
@@ -14,6 +12,6 @@ def readinput():
 
 if __name__ == "__main__":
     tcontent, content = readinput()
-    day = Day3(content)
+    day = Day10(content)
 
-    print(day.task2())
+    print(day.task1())
