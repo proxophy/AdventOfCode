@@ -49,8 +49,6 @@ def part1(boxes):
     compsizes = list(Counter(comp).values())
     compsizes.sort(reverse=True)
     return compsizes[0] * compsizes[1] * compsizes[2]
-    # raise NotImplementedError()
-
 
 def part2(boxes):
     nodes = list(range(len(boxes)))
